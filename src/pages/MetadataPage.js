@@ -36,6 +36,8 @@ function MetadataPage() {
 
       <h3>Metadata:</h3>
       <pre>{JSON.stringify(metadata, null, 2)}</pre>
+
+      {metadata.image && <img src={metadata.image} alt="Metadata Image" />}
     </div>
   );
 }
