@@ -3,15 +3,16 @@ import { getAuth } from 'firebase/auth';
 import { doc, getFirestore, collection, addDoc, getDocs,query, where, deleteDoc } from 'firebase/firestore'; // <== 이 부분 추가
 
 
+
 const firebaseConfig = {
-  apiKey: "AIzaSyDhcqLXClwQ_GoHdwKQBg5nkfCrqGca1Wc",
-  authDomain: "nesty-bf58c.firebaseapp.com",
-  projectId: "nesty-bf58c",
-  storageBucket: "nesty-bf58c.appspot.com",
-  messagingSenderId: "694731355401",
-  appId: "1:694731355401:web:6979d5094b794c424acfd8",
-  measurementId: "G-DHFE4LTLZL"
-};
+    apiKey: process.env.FIREBASE_API_KEY,
+    authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.FIREBASE_PROJECT_ID,
+    storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.FIREBASE_APP_ID,
+    measurementId: process.env.FIREBASE_MEASUREMENT_ID,
+  };
 
 export async function saveMetadataToFirestore(metadata, userId) {
     const metadataCollection = collection(db, 'metadata');
