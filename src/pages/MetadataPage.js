@@ -189,6 +189,7 @@ function MetadataPage() {
             <div style={{ flex: '1', marginRight: '10px' }}>
               <strong><a href={data.url} target="_blank" rel="noopener noreferrer">{data.title}</a></strong>
               <p>{data.description}</p>
+              <p>{data.bodyContent}</p>
               <button onClick={() => handleDelete(data.docId, index)}>삭제하기</button>
             </div>
             <div style={{ width: '180px', height: '100px', overflow: 'hidden' }}>

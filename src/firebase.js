@@ -2,8 +2,6 @@ import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { doc, getFirestore, collection, addDoc, getDocs,query, where, deleteDoc } from 'firebase/firestore'; // <== 이 부분 추가
 
-
-
 const firebaseConfig = {
     apiKey: process.env.FIREBASE_API_KEY,
     authDomain: process.env.FIREBASE_AUTH_DOMAIN,

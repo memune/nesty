@@ -37,5 +37,29 @@ function extractMetadata(html) {
   const image = $('meta[property="og:image"]').attr('content') || $('meta[name="twitter:image"]').attr('content');
   const author = $('meta[name="author"]').attr('content');
 
-  return { title, description, image, author };
+  // 본문 추출 코드 추가
+  const bodyContent = extractArticleBody(html);
+
+  return { title, description, image, author, bodyContent };
+}
+
+function extractArticleBody(html) {
+  const $ = cheerio.load(html);
+  const threshold = 200; // 임계값 설정
+  let articleBody = "";
+
+  $('p, article, section').each((index, element) => {
+    const textBlock = $(element).text().trim();
+    
+    // 텍스트 블록 필터링
+    if (textBlock.includes("광고") || textBlock.includes("댓글") || textBlock.includes("Copyright") || textBlock.includes(".css")) {
+      return; // 현재 텍스트 블록을 건너뜁니다.
+    }
+
+    if (textBlock.length > threshold) {
+      articleBody += textBlock + "\n\n"; // 본문에 추가
+    }
+  });
+
+  return articleBody;
 }
