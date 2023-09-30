@@ -2,10 +2,13 @@ import React, { useState } from 'react';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase';
 
+
 function Register({ onSwitch }) {
+  const [nickname, setNickname] = useState(''); // 닉네임 상태 추가
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,6 +24,7 @@ function Register({ onSwitch }) {
     <div>
       <h2>Register</h2>
       <form onSubmit={handleSubmit}>
+
         <input
           type="email"
           placeholder="Email"

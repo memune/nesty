@@ -61,18 +61,22 @@ function MetadataPage() {
   };
 
 
-  const handleDelete = async (docId, index) => {
-    try {
-      await deleteMetadata(docId);
-      
-      // UI에서 해당 항목 삭제
-      setMetadataList(prevList => {
-        const newList = [...prevList];
-        newList.splice(index, 1);
-        return newList;
-      });
-    } catch (error) {
-      console.error("Error deleting document: ", error);
+  const handleDelete = async (docId, index, userId) => {
+    
+    if (currentUser && currentUser.userId === userId) {
+      try {
+        await deleteMetadata(docId);
+        
+        setMetadataList(prevList => {
+          const newList = [...prevList];
+          newList.splice(index, 1);
+          return newList;
+        });
+      } catch (error) {
+        console.error("Error deleting document: ", error);
+      }
+    } else {
+      console.error("You don't have permission to delete this article.");
     }
   };
 
@@ -184,19 +188,24 @@ function MetadataPage() {
 
 
       <ul>
-        {metadataList.map((data, index) => (
-          <li key={index} style={{ marginBottom: '20px', padding: '10px', border: '1px solid #ccc', borderRadius: '4px', display: 'flex', alignItems: 'center' }}>
-            <div style={{ flex: '1', marginRight: '10px' }}>
-              <strong><a href={data.url} target="_blank" rel="noopener noreferrer">{data.title}</a></strong>
-              <p>{data.description}</p>
-              <p>{data.bodyContent}</p>
+      {metadataList.map((data, index) => (
+        <li key={index} style={{ marginBottom: '20px', padding: '10px', border: '1px solid #ccc', borderRadius: '4px', display: 'flex', alignItems: 'center' }}>
+          <div style={{ flex: '1', marginRight: '10px' }}>
+            <strong><a href={data.url} target="_blank" rel="noopener noreferrer">{data.title}</a></strong>
+            <p>{data.description}</p>
+            {/* <p>{data.bodyContent}</p> */} 
+
+            {/* 현재 로그인한 사용자의 UID와 기사 데이터의 userId가 일치할 경우에만 삭제 버튼 표시 */}
+            {currentUser && currentUser.uid === data.userId && (
               <button onClick={() => handleDelete(data.docId, index)}>삭제하기</button>
-            </div>
-            <div style={{ width: '180px', height: '100px', overflow: 'hidden' }}>
-              <img src={data.image} alt="Metadata Thumbnail" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            </div>
-          </li>
-        ))}
+            )}
+          </div>
+    
+          <div style={{ width: '180px', height: '100px', overflow: 'hidden' }}>
+            <img src={data.image} alt="Metadata Thumbnail" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          </div>
+        </li>
+      ))}
       </ul>
 
       <div>
